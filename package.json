@@ -1,0 +1,24 @@
+{
+  "name": "court-of-the-crimson-king",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:FakeYou/court-of-the-crimson-king.git",
+  "author": "Andre Nanninga <ag.nanninga@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "planck-js": "^0.1.42",
+    "stats.js": "^0.17.0",
+    "three": "^0.89.0"
+  }
+}
