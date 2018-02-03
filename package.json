@@ -16,6 +16,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
+    "keycode-js": "^1.0.0",
     "lodash": "^4.17.4",
     "planck-js": "^0.1.42",
     "stats.js": "^0.17.0",
