@@ -5,9 +5,10 @@
   "repository": "git@github.com:FakeYou/court-of-the-crimson-king.git",
   "author": "Andre Nanninga <ag.nanninga@gmail.com>",
   "license": "MIT",
+  "homepage": "https://fakeyou.github.io/court-of-the-crimson-king/",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "PUBLIC_PATH=\"/court-of-the-crimson-king/\" webpack"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
