@@ -7,6 +7,7 @@ import Camera from './Camera';
 import Car from './entities/Car';
 import Chunk from './entities/Chunk';
 import Forest from './entities/Forest';
+import Attacker from './entities/Attacker';
 
 if (module.hot) {
 	module.hot.dispose(() => {
@@ -16,6 +17,10 @@ if (module.hot) {
 
 export default class Game {
 	constructor() {
+
+		this.CAR_CATEGORY = 0b0001;
+		this.FOREST_CATEGORY = 0b0010;
+		this.NPC_CATEGORY = 0b0100;
 
 		this.scene = new THREE.Scene();
 
@@ -32,17 +37,28 @@ export default class Game {
 
 		this.car = new Car(this, this.world);
 		this.scene.add(this.car);
-		// this.scene.add(new THREE.GridHelper(2000, 200));
 
 		this.forest = new Forest(this, this.world);
 		this.scene.add(this.forest);
+
+		this.attackers = [];
+
+		for (let i = 0; i < 40; i++) {
+			const attacker = new Attacker(this, this.world);
+			this.attackers.push(attacker);
+			this.scene.add(attacker);
+		}
+
 
 		document.body.appendChild(this.renderer.domElement);
 
 		this.render = this.render.bind(this);
 		this.update = this.update.bind(this);
 
-		// planck.testbed('debug', () => {
+		// planck.testbed('debug', (testbed) => {
+		// 	this.testbed = testbed;
+		// 	testbed.width = 200;
+		// 	testbed.height = 160;
 		// 	return this.world;
 		// });
 
@@ -77,6 +93,8 @@ export default class Game {
 		this.forest.update();
 		this.car.update();
 		this.camera.update();
+
+		this.attackers.forEach(x => x.update());
 	}
 
 	render() {
@@ -86,6 +104,12 @@ export default class Game {
 		this.update();
 
 		this.car.render();
+		this.attackers.forEach(x => x.render());
+
+		if (this.testbed) {
+			this.testbed.y = -this.car.position.z;
+			this.testbed.x = this.car.position.x;
+		}
 
 		this.renderer.render(this.scene, this.camera);
 

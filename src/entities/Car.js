@@ -17,10 +17,15 @@ export default class Car extends THREE.Group {
 		);
 
 		this.mesh.position.y = 0.7;
+		this.position.y = 2;
 		this.add(this.mesh);
 
 		this.body = world.createBody({ type: 'dynamic' });
-		this.body.createFixture(planck.Box(3, 5), 0.1);
+		this.body.createFixture(planck.Box(3, 5), {
+			density: 1,
+			filterCategoryBits: game.CAR_CATEGORY,
+			filterMaskBits: game.CAR_CATEGORY | game.NPC_CATEGORY | game.FOREST_CATEGORY,
+		});
 
 		this.frontLeftWheel = new Wheel(game, world);
 		this.frontRightWheel = new Wheel(game, world);
@@ -36,29 +41,35 @@ export default class Car extends THREE.Group {
 			lowerAngle: 0,
 			upperAngle: 0,
 			enableLimit: true,
-			localAnchorA: planck.Vec2(-3, 4.5)
+			localAnchorA: planck.Vec2(-3, 3.5)
 		}, this.body, this.frontLeftWheel.body, this.frontLeftWheel.body.getPosition()));
 
 		this.frontRightJoint = world.createJoint(planck.RevoluteJoint({
 			lowerAngle: 0,
 			upperAngle: 0,
 			enableLimit: true,
-			localAnchorA: planck.Vec2(3, 4.5)
+			localAnchorA: planck.Vec2(3, 3.5)
 		}, this.body, this.frontRightWheel.body, this.frontRightWheel.body.getPosition()));
 
 		world.createJoint(planck.RevoluteJoint({
 			lowerAngle: 0,
 			upperAngle: 0,
 			enableLimit: true,
-			localAnchorA: planck.Vec2(-3, -4.5)
+			localAnchorA: planck.Vec2(-3, -3.5)
 		}, this.body, this.backLeftWheel.body, this.backLeftWheel.body.getPosition()));
 
 		world.createJoint(planck.RevoluteJoint({
 			lowerAngle: 0,
 			upperAngle: 0,
 			enableLimit: true,
-			localAnchorA: planck.Vec2(3, -4.5)
+			localAnchorA: planck.Vec2(3, -3.5)
 		}, this.body, this.backRightWheel.body, this.backRightWheel.body.getPosition()));
+		
+		this.body.setAngle(-Math.PI);
+		this.frontLeftWheel.body.setAngle(-Math.PI);
+		this.frontRightWheel.body.setAngle(-Math.PI);
+		this.backLeftWheel.body.setAngle(-Math.PI);
+		this.backRightWheel.body.setAngle(-Math.PI);
 	}
 
 	update() {

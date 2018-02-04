@@ -21,6 +21,11 @@ export default class Chunk extends THREE.Mesh {
 
 		this.body = world.createBody();
 
+		const fixtureDef = {
+			filterCategoryBits: game.FOREST_CATEGORY,
+			filterMaskBits: game.CAR_CATEGORY,
+		}
+
 		for (let i = 0; i < this.parts; i++) {
 			for (let j = -1; j < 2; j++) {
 				geometry.vertices.push(new THREE.Vector3(this.delta + j * this.width, 0, i * this.tile));
@@ -45,12 +50,12 @@ export default class Chunk extends THREE.Mesh {
 			this.body.createFixture(planck.Edge(
 				planck.Vec2(geometry.vertices[index - 3].x + pos.x, geometry.vertices[index - 3].z + pos.z),
 				planck.Vec2(geometry.vertices[index].x + pos.x, geometry.vertices[index].z + pos.z),
-			));
+			), fixtureDef);
 
 			this.body.createFixture(planck.Edge(
 				planck.Vec2(geometry.vertices[index - 1].x + pos.x, geometry.vertices[index - 1].z + pos.z),
 				planck.Vec2(geometry.vertices[index + 2].x + pos.x, geometry.vertices[index + 2].z + pos.z),
-			));
+			), fixtureDef);
 
 			this.delta += random(-10, 10, true) + Math.cos(i * 100) * 3;
 		}

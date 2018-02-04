@@ -9,10 +9,10 @@ export default class Wheel extends THREE.Group {
 		this.game = game;
 		this.world = world;
 
-		this.maxForwardSpeed = 60;
-		this.maxBackwardSpeed = -30;
-		this.maxDriveForce = 90;
-		this.maxLateralImpulse = 11;
+		this.maxForwardSpeed = 300;
+		this.maxBackwardSpeed = -40;
+		this.maxDriveForce = 200;
+		this.maxLateralImpulse = 15;
 
 		this.mesh = new THREE.Mesh(
 			new THREE.CylinderGeometry(1.25, 1.25, 1, 8),
@@ -24,7 +24,11 @@ export default class Wheel extends THREE.Group {
 		this.add(this.mesh);
 
 		this.body = world.createBody({ type: 'dynamic' });
-		this.body.createFixture(planck.Box(0.5, 1.25), 1);
+		this.body.createFixture(planck.Box(0.5, 1.25), {
+			density: 1,
+			filterCategoryBits: game.CAR_CATEGORY,
+			filterMaskBits: game.CAR_CATEGORY | game.NPC_CATEGORY | game.FOREST_CATEGORY,
+		});
 	}
 
 	getForwardVelocity() {
